@@ -1,67 +1,90 @@
-<?php
-// tableau entier
-$entiers = range(1, 63);
+<!DOCTYPE html>
+<html>
 
-// tableau /10
-$division = array_map(function ($valeur) {
-    return $valeur / 10;
-}, $entiers);
+<head>
+    <title>Exercices PHP</title>
+</head>
 
-// tableau sin
-$sin = array();
-foreach ($division as $valeur) {
-    $sin[$valeur] = sin($valeur);
-}
-?>
+<body>
 
-<div class="container">
-    <div class="tab1">
-        indice
-        <?php foreach ($entiers as $valeur) : ?>
-            <div class="tabtab1"><?= $valeur ?></div>
-        <?php endforeach; ?>
-    </div>
+    <?php
+    // Objectif 1
+    $entiers = range(0, 63);
 
-    <div class="tab2">
-        value
-        <?php foreach ($division as $valeur) : ?>
-            <div class="tabtab2"><?= number_format($valeur, 1) ?></div>
-        <?php endforeach; ?>
+    echo "<h2>Objectif 1</h2>";
+    echo "<table border='1'>";
+    echo "<tr><th>Indice</th><th>Valeur</th></tr>";
+    foreach ($entiers as $indice => $valeur) {
+        echo "<tr><td>$indice</td><td>$valeur</td></tr>";
+    }
+    echo "</table>";
 
-        <?php foreach ($sin as $x => $sinx) : ?>
-            <?= number_format($x, 1) ?>
-            <?= number_format($sinx, 4) ?>
-        <?php endforeach; ?>
-    </div>
-</div>
-<style>
-    .container {
-        display: flex
+    // Objectif 2
+    $nombres = [];
+    for ($i = 0; $i <= 63; $i++) {
+        $nombres[] = $i / 10;
     }
 
-    .tab1 {
-        display: flex;
-        flex-direction: column;
-        margin: 8px;
+    echo "<h2>Objectif 2</h2>";
+    echo "<table border='1'>";
+    echo "<tr><th>Indice</th><th>Valeur</th></tr>";
+    foreach ($nombres as $indice => $valeur) {
+        echo "<tr><td>$indice</td><td>$valeur</td></tr>";
+    }
+    echo "</table>";
+
+    // Objectif 3
+    $sinus = [];
+    foreach ($nombres as $x) {
+        $sinus[(string)$x] = sin($x);
     }
 
-    .tabtab1 {
-        border-style: solid;
-        margin: 8px;
-        padding: 5px;
-        border-width: 2px;
+    echo "<h2>Objectif 3</h2>";
+    echo "<table border='1'>";
+    echo "<tr><th>X</th><th>sin(X)</th></tr>";
+    foreach ($sinus as $x => $valeur) {
+        echo "<tr><td>$x</td><td>$valeur</td></tr>";
+    }
+    echo "</table>";
+
+    // Objectif 4
+    $emails = [
+        "hello@sfr.fr", "marc@sfr.fr", "estelle@sfr.fr", "caroline@sfr.fr",
+        "hello@orange.fr", "goodbye@orange.fr", "justine@orange.fr",
+        "hello@free.fr", "bob@free.fr"
+    ];
+
+    $fournisseurs = [];
+    foreach ($emails as $email) {
+        $domaine = substr(strrchr($email, "@"), 1);
+        if (isset($fournisseurs[$domaine])) {
+            $fournisseurs[$domaine]++;
+        } else {
+            $fournisseurs[$domaine] = 1;
+        }
     }
 
-    .tab2 {
-        display: flex;
-        flex-direction: column;
-        margin: 8px;
+    // Affichage des occurrences
+    echo "<h2>Objectif 4: Occurrences</h2>";
+    echo "<table border='1'>";
+    echo "<tr><th>Indice</th><th>Valeur</th></tr>";
+    foreach ($fournisseurs as $domaine => $occurrences) {
+        echo "<tr><td>@$domaine</td><td>$occurrences</td></tr>";
     }
+    echo "</table>";
 
-    .tabtab2 {
-        border-style: solid;
-        padding: 5px;
-        margin: 8px;
-        border-width: 2px;
+    // Affichage des pourcentages
+    $totalEmails = count($emails);
+    echo "<h2>Objectif 4: Pourcentages</h2>";
+    echo "<table border='1'>";
+    echo "<tr><th>Indice</th><th>Valeur</th></tr>";
+    foreach ($fournisseurs as $domaine => $occurrences) {
+        $pourcentage = ($occurrences / $totalEmails) * 100;
+        echo "<tr><td>@$domaine</td><td>" . number_format($pourcentage, 2) . "%</td></tr>";
     }
-</style>
+    echo "</table>";
+    ?>
+
+</body>
+
+</html>
